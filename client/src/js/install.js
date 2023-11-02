@@ -28,3 +28,5 @@ butInstall.addEventListener('click', async () => {
 window.addEventListener('appinstalled', (evt) => {
     console.log('The app was installed successfully!');
 });
+
+//a
