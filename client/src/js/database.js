@@ -14,25 +14,36 @@ const initdb = async () =>
 
 // TODO: Add logic to a method that accepts some content and adds it to the database
 export const putDb = async (content) => {
-  const db = await openDB('jate', 1);
-  const tx = db.transaction('jate', 'readwrite');
+  console.log('PUT to the database');
+
+  const contactDb = await openDB('jate', 1);
+
+  const tx = contactDb.transaction('jate', 'readwrite');
+
   const store = tx.objectStore('jate');
-  await store.add({ content });
-  console.log('Content added to the database', content);
+
+  const request = store.put({content: content, id: 1});
+
+  const result = await request;
+  console.log('result.value', result);
+  return result;
 };
 
 // TODO: Add logic for a method that gets all the content from the database
 export const getDb = async () => {
-  console.log('Getting all the content from the database');
-  const db = await openDB('jate', 1);
-  const tx = db.transaction('jate','readonly');
-  const store = tx.objectStore('jate');
-  const request = store.getAll();
-  const allRecords = await store.getAll();
-  const result = await request;
-  console.log('results.value', result);
-  return allRecords.length > 0 ? allRecords[allRecords.length - 1].content : header; 
-};
+  console.log('GET from the database');
 
+  const contactDb = await openDB('jate', 1);
+
+  const tx = contactDb.transaction('jate', 'readonly');
+
+  const store = tx.objectStore('jate');
+
+  const request = store.get(1);
+
+  const result = await request;
+  console.log('result.value', result);
+  return result?.content;
+};
 
 initdb();
